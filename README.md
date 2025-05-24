@@ -1,161 +1,319 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/ba0L0ar_)
-﻿# Project Title: Climate Change Impact Assessment and Prediction System for Nepal
+# Nepal Climate Vulnerability Analysis & Dashboard
 
-### Project Goal: 
-- Develop an end-to-end data analysis system that monitors, analyzes, and predicts climate change impacts in Nepal with a focus on vulnerable regions
-### Target Audience: 
-- Recent data science graduates applying their skills to real-world climate problems
+A comprehensive geospatial and machine learning project for climate vulnerability assessment across Nepal. The project features deep Exploratory Data Analysis (EDA), robust predictive modeling, NLP-driven climate insights, and a richly interactive Streamlit dashboard designed for both technical and non-technical audiences.
 
+---
 
-## 1. Project Planning & Requirements Gathering
+## Table of Contents
 
-Define specific climate-related problems in Nepal to address (e.g., glacial melt, flooding, agricultural impacts)
-Research existing climate monitoring infrastructure in Nepal
-Identify key stakeholders (government agencies, NGOs, research institutions)
-Determine required resources (computing, storage, expertise)
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Repository Structure](#repository-structure)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Quick Start](#quick-start)
+- [Data Sources & Processing](#data-sources--processing)
+- [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
+- [Model Development](#model-development)
+- [NLP Integration](#nlp-integration)
+- [Dashboard Application](#dashboard-application)
+- [Usage & Interactions](#usage--interactions)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
+---
 
-## 2. Data Collection & Acquisition
+## Project Overview
 
-Weather & Climate Data:
+Climate change poses acute risks to Nepal’s diverse regions—from the subtropical Terai to the high Himalayas. This project delivers:
 
-- Historical temperature, precipitation, and extreme weather events from Nepal Department of Hydrology and Meteorology
-- Satellite imagery from NASA Earth Data for glacial monitoring
-- Weather station data from World Meteorological Organization
-- Climate reanalysis data from ERA5 dataset
+- **Comprehensive EDA** of daily climate, hazard, and impact data.
+- **Geospatial mapping** of climate variables, hazards, and vulnerability indices by district/province.
+- **Advanced ML models** to forecast floods, droughts, fire risks, and impacts.
+- **NLP-powered insights** from news and social media.
+- **An interactive Streamlit dashboard** for real-time analysis, visualization, and reporting.
 
+---
 
-Environmental Data:
+## Features
 
-- Land use/land cover changes from Landsat/Sentinel imagery
-- River discharge data from hydrological stations
-- Glacial lake formation and evolution data
-- Forest cover and deforestation rates from Global Forest Watch
+- 📈 **Geospatial EDA** (maps, time series, dynamic plots)
+- 🏔 **Elevation-based climate analysis** (e.g., temperature trends by elevation bands)
+- ☔ **Event frequency mapping** (flood, drought, fire, glacial lakes)
+- 📊 **Correlation & trend analysis** (including Mann–Kendall, regression)
+- 🌍 **Choropleth maps** (static and interactive, with time sliders)
+- ⚡ **Machine Learning**: classification (Random Forests, Gradient Boosting), regression (Linear, Ridge, Lasso, GB)
+- 🧠 **NLP**: sentiment, topic modeling, entity recognition, news/social scraping
+- 🌐 **Streamlit dashboard**: filters, maps, time series, model predictions, PDF downloads
+- 📤 **Integrated feedback system** and real-time documentation
 
+---
 
-Socioeconomic Data:
+## Repository Structure
 
-- Agricultural yield statistics from Nepal Ministry of Agriculture
-- Population distribution data in climate-vulnerable areas
-- Infrastructure mapping in flood-prone regions
-- Economic impact data from previous climate disasters
+```
+|capstone-project-Vizon15
+├── ./ASSIGNMENT.md
+├── ./apps
+│   └── ./apps/app.py
+├── ./datasets
+│   ├── ./datasets/district_shape
+│   │   ├── ./datasets/district_shape/district.cpg
+│   │   ├── ./datasets/district_shape/district.dbf
+│   │   ├── ./datasets/district_shape/district.geojson
+│   │   ├── ./datasets/district_shape/district.prj
+│   │   ├── ./datasets/district_shape/district.shp
+│   │   └── ./datasets/district_shape/district.shx
+│   ├── ./datasets/nepal_gis_daily_data.csv
+│   ├── ./datasets/processed
+│   │   ├── ./datasets/processed/preprocessed_climate_data.csv
+│   │   └── ./datasets/processed/updated_engineered_features_with_provinces.csv
+│   └── ./datasets/synthetic_district_elevation.csv
+├── ./deployment
+│   ├── ./deployment/architecture.md
+│   ├── ./deployment/backup.md
+│   ├── ./deployment/ci_cd.yml
+│   ├── ./deployment/monitoring.py
+│   ├── ./deployment/pipeline.py
+│   └── ./deployment/security.md
+├── ./docs
+│   ├── ./docs/api.md
+│   ├── ./docs/code_comments.md
+│   ├── ./docs/faq.md
+│   ├── ./docs/maintenance.md
+│   ├── ./docs/training.md
+│   ├── ./docs/tutorials.md
+│   ├── ./docs/update_procedure.md
+│   ├── ./docs/user_guide.md
+│   └── ./docs/wiki.md
+├── ./future.md
+├── ./models
+│   ├── ./models/gb_vulnerability.pkl
+│   ├── ./models/gbreg_impact.pkl
+│   ├── ./models/histgb_flood_event.pkl
+│   ├── ./models/lasso_impact.pkl
+│   ├── ./models/linreg_impact.pkl
+│   ├── ./models/rf_climate_zone.pkl
+│   └── ./models/ridge_impact.pkl
+├── ./output
+├── ./requirements.txt
+├── ./src
+│   ├── ./src/__pycache__
+│   │   └── ./src/__pycache__/nlp.cpython-311.pyc
+│   ├── ./src/app.py
+│   ├── ./src/data_gen.py
+│   ├── ./src/data_preprocessing.ipynb
+│   ├── ./src/eda.ipynb
+│   ├── ./src/feature_engineering.py
+│   ├── ./src/model_dev.py
+│   ├── ./src/model_validation.py
+│   ├── ./src/nlp.py
+│   ├── ./src/test.ipynb
+│   ├── ./src/updated_app.py
+│   └── ./src/updated_nlp.py
+├── ./README.md
+└── ./repo_structure.txt
 
+```
 
+---
 
-## 3. Data Preprocessing & Storage
+## Getting Started
 
-- Develop data cleaning pipelines for each data source
-- Handle missing values through appropriate imputation techniques
-- Normalize data from different sources and convert to consistent units
-- Implement temporal alignment for time-series data
-- Create georeferenced dataset structure for spatial analysis
-- Design CSV schema for storing processed data
-- Document data lineage and preprocessing steps
-- Implement data validation checks for consistency
+### Prerequisites
 
-## 4. Exploratory Data Analysis (EDA)
+- Python 3.8+
+- `pip` or `conda` for package management
 
-- Analyze temperature trends across different regions and elevations
-- Visualize precipitation patterns and changes over time
-- Identify extreme weather event frequency and intensity changes
-- Examine correlations between climate variables and environmental impacts
-- Analyze glacial retreat rates over time
-- Map climate vulnerability across different regions
-- Create interactive visualizations of key trends
-- Conduct statistical tests to validate observed changes
+### Installation
 
-## 5. Feature Engineering
+1. **Clone the repository**
 
-- Create derived climate indices (drought indices, heat stress metrics)
-- Develop seasonal indicators for monsoon patterns
-- Generate lag features for time-series prediction
-- Create spatial proximity features for geospatial analysis
-- Extract relevant features from satellite imagery
-- Integrate geographic information into feature set
-- Normalize and scale features appropriately
-- Perform dimensionality reduction if needed
+   ```bash
+   git clone https://github.com/Omdena-NIC-Nepal/capstone-project-Vizon15.git
+   cd capstone-project-Vizon15
+   ```
 
-## 6. Machine Learning Model Development
+2. **Create & activate a virtual environment**
 
-### Classification Models:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate       # Linux/macOS
+   venv\Scripts\activate          # Windows
+   ```
 
-- Random Forest for climate zone classification
-- Support Vector Machines for extreme event prediction
-- Gradient Boosting for vulnerability assessment
-- Model evaluation using appropriate metrics (RMSE, MAE, F1-score)
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
+### Quick Start
 
-### Regression Models:
+- **Run the dashboard:**
+  ```bash
+  streamlit run app.py
+  ```
+- **App will open in your browser at** `http://localhost:8501`
 
-- Multiple linear regression for impact assessment
-- Ridge/Lasso regression for dealing with multicollinearity
-- Gradient boosting regression for non-linear relationships
-- Model validation through cross-validation techniques
+---
 
+## Data Sources & Processing
 
+- **Climate Data**: Daily records with temperature, precipitation, humidity, flood/drought/fire counts, glacial lake counts, yield/loss, population exposure.
+- **District Shapefile**: GIS boundaries for all 77 districts.
+- **Elevation Data**: Synthetic or measured average elevation per district.
+- **Automated loading**: Large datasets are streamed from Dropbox to avoid GitHub file limits.
 
-## 7. Natural Language Processing Components
+**Raw data is processed with:**
 
-- Collect climate-related news articles, reports, and social media data
-- Develop sentiment analysis model to track public perception of climate change
-- Implement named entity recognition to extract location and event information
-- Create topic modeling system to identify emerging climate concerns
-- Build text summarization tool for climate reports
-- Develop multilingual processing capability for Nepali language sources
-- Integrate NLP insights with quantitative climate data
-- Design information extraction pipeline for unstructured text data
+- Imputation (SimpleImputer/KNN)
+- Feature engineering (date parts, lag variables, province/district labels)
+- Scaling (MinMaxScaler)
+- Integration (merging engineered features with raw climate & impact data)
+- All processing code is in `data_preprocessing.ipynb` and `eda.ipynb`.
 
-## 8. Model Evaluation & Validation
+**Example code for dynamic data loading:**
 
-- Establish appropriate evaluation metrics for different model types
-- Implement cross-validation strategies for robust evaluation
-- Conduct sensitivity analysis for key parameters
-- Compare model performance against baseline approaches
-- Evaluate model performance on different geographical regions
-- Assess prediction accuracy for different time horizons
-- Document uncertainty in model predictions
-- Validate models against recent climate events
+```python
+url = "https://www.dropbox.com/scl/fi/x45dmh7gr7zdoxhmv0grj/updated_engineered_features_with_provinces.csv?rlkey=e4fc80irn8a1yacjw80ilvirn&st=wokg0z5e&dl=1"
+df = pd.read_csv(url)
+```
 
-## 9. Dashboard Development with Streamlit
+---
 
-- Design user-friendly interface with multiple pages
-- Create interactive maps showing climate vulnerability
-- Implement time-series visualization components
-- Develop model prediction interfaces
-- Add filtering capabilities by region, time period, and climate variables
-- Create downloadable report generation functionality
-- Implement user feedback collection mechanism
-- Ensure mobile-friendly design
+## Exploratory Data Analysis (EDA)
 
-## 10. Deployment & Integration
+See `eda.ipynb` for in-depth analysis and visualizations:
 
-- Set up cloud-based hosting for the Streamlit application
-- Configure automated data pipeline for regular updates
-- Implement API endpoints for integration with other systems
-- Set up continuous integration and deployment workflow
-- Ensure appropriate security measures for sensitive data
-- Document deployment architecture and dependencies
-- Create system monitoring dashboard
-- Implement backup and disaster recovery procedures
+- **Temperature trends** by province, district, elevation band
+- **Monthly precipitation** patterns and year-on-year trends
+- **Extreme weather** frequency: annual top 5% events (floods, droughts, fires)
+- **Glacial retreat**: glacial lake formation trends
+- **Correlation heatmaps**: climate variables vs. agricultural yield, loss, population exposure
+- **Vulnerability mapping**: composite indices, time-slider choropleths
+- **Statistical tests**: Mann–Kendall trend, linear regression
 
-## 11. Documentation & Knowledge Transfer
+---
 
-- Create comprehensive API documentation
-- Develop user guides for different stakeholder groups
-- Write technical documentation for system maintenance
-- Prepare training materials for new users
-- Document code with appropriate comments and explanations
-- Create project wiki with FAQs and troubleshooting guides
-- Record tutorial videos for common tasks
-- Establish documentation update procedures
+## Model Development
 
-## 12. Future Improvements & Extensions
+Automated model training and evaluation in `model_dev.py`:
 
-- Outline potential integration with IoT climate sensors
-- Suggest approaches for higher-resolution modeling
-- Identify opportunities for citizen science data collection
-- Propose advanced deep learning model implementations
-- Recommend additional data sources for enhanced analysis
-- Suggest mobile application development for broader access
-- Outline potential for integration with early warning systems
-- Propose international collaboration opportunities
+- **Data loading**: from `output/engineered_features.csv`
+- **Imputation & splitting**: handles missing values, train/test splits
+- **Algorithms:**
+  - Classification: Random Forest, Gradient Boosting, HistGradientBoosting
+  - Regression: Linear, Ridge, Lasso, GradientBoostingRegressor
+- **Cross-validation**: KFold, cross_val_score
+- **Metrics**: Accuracy, F1, MSE, MAE, R²
+- **Model caching**: skips retraining if `.pkl` artifacts exist
+
+**Usage:**
+
+```bash
+python model_dev.py
+```
+
+---
+
+## NLP Integration
+
+NLP tools in `nlp.py` provide climate-driven insights:
+
+- **Web scraping**: Fetch news/social posts (requests, BeautifulSoup)
+- **Preprocessing**: Regex, lemmatization, stopwords
+- **Sentiment analysis**: VADER
+- **Topic modeling**: LDA
+- **Named Entity Recognition**: Regex-based, simple NER
+- **Data synthesis**: Generate synthetic posts with location/timestamp
+- **Integration**: Merge sentiment with daily climate data
+- **Caching**: via Streamlit `@st.cache_data`
+
+---
+
+## Dashboard Application
+
+The interactive dashboard (`app.py`) offers:
+
+- **Sidebar filters**: Province, district, variables, season, date range
+- **Tabs for**:
+  - Dashboard: Overview metrics, data preview, CSV download
+  - Maps: Interactive heatmaps at district/province level
+  - Time Series: Trends for any variable over time
+  - EDA: Summary stats, distributions, bivariate/multivariate plots, PCA
+  - Predictions: ML-based forecasts; supports file upload for batch inference
+  - NLP: Sentiment, keywords, NER, advanced analysis on custom or fetched text
+  - Feedback: Send feedback (stored in Google Sheets, GCP credentials required)
+  - System & Docs: Deployment, monitoring, API/user/wiki docs, roadmap
+
+**All features update dynamically based on sidebar filter selections.**
+
+---
+
+## Usage & Interactions
+
+### Typical User Flow
+
+1. **Launch the dashboard**
+   - `streamlit run app.py`
+2. **Apply filters** (province, district, date, variables)
+3. **Explore**
+   - Metrics and tables (Dashboard tab)
+   - Maps (Maps tab)
+   - Time series and trends (Time Series tab)
+   - EDA, PCA, and insights (EDA tab)
+4. **Forecast events** (Predictions tab)
+   - Select event type, forecast horizon
+   - Optionally upload CSV for batch predictions (see template/column requirements in the UI)
+5. **Analyze text** (NLP tab)
+   - Run sentiment, entity, or topic analysis on any provided or fetched text
+   - Use advanced tools for news/social media, translation, summarization
+6. **Send feedback** (Feedback tab)
+7. **View documentation and system info** (System & Docs tab)
+
+### Data Access
+
+- All large datasets are automatically streamed from Dropbox—**no manual download needed**.
+- To change the data source, update the Dropbox link in code.
+
+---
+
+## Contributing
+
+We welcome contributions!
+
+1. **Fork this repository**
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. **Commit your changes**
+   ```bash
+   git commit -m "Add new feature: ..."
+   ```
+4. **Push and open a Pull Request**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+5. **Describe your changes clearly**; adhere to code style and add tests or notebook examples for new functionality.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## Contact
+
+- **Lead:** Jhalak Bahadur Khatri
+- **Email:** jhalakkc5@gmail.com
+- **GitHub:** [Vizon15](https://github.com/Vizon15)
+- **Project Org:** [Omdena NIC Nepal](https://omdena.com/)
+
+---
+
+_For questions, suggestions, or issues, open an [issue](https://github.com/Omdena-NIC-Nepal/capstone-project-Vizon15/issues) or use the dashboard’s Feedback tab!_
