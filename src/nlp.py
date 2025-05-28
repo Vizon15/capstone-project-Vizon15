@@ -14,9 +14,10 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 import random
 from datetime import datetime, timedelta
-
+import subprocess
 import spacy
-
+# Ensure the model is downloaded
+subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
 # Load spaCy's English model
 english_nlp = spacy.load("en_core_web_sm")
 

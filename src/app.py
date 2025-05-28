@@ -305,7 +305,7 @@ models = load_models()
 
 # Predictions Tab
 with tabs[4]:
-    st.header("Predict Future Events")
+    st.header("Predict Future Events With Trained Datasets")
     event = st.selectbox("Event", ['Flood', 'Temperature (°C)', 'Rainfall (mm)', 'Forest Fire', 'Impact'])
     steps = st.slider("Forecast Horizon (weeks)", 1, 104, 5)
     if st.button("Forecast"):
