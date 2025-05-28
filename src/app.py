@@ -509,33 +509,37 @@ from google.oauth2 import service_account
 
 def save_feedback(name, email, feedback):
     try:
-        # Define the scope for Google Sheets and Google Drive
-        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        
-        # Authenticate using the service account JSON key file
+        # Define the correct OAuth scope for Google Sheets
+        scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+
         # Load secrets from Streamlit Cloud
-        gcp_secrets = st.secrets["GCP"]
+        gcp_secrets = st.secrets["gcp_service_account"]  # Ensure correct section name
 
         # Authenticate using secrets.toml
-        creds = service_account.Credentials.from_service_account_info({
-            "type": gcp_secrets["type"],
-            "project_id": gcp_secrets["project_id"],
-            "private_key": gcp_secrets["private_key"],
-            "client_email": gcp_secrets["client_email"],
-            "token_uri": gcp_secrets["token_uri"],
-            })
+        creds = service_account.Credentials.from_service_account_info(
+            {
+                "type": gcp_secrets["type"],
+                "project_id": gcp_secrets["project_id"],
+                "private_key": gcp_secrets["private_key"],
+                "client_email": gcp_secrets["client_email"],
+                "token_uri": gcp_secrets["token_uri"],
+            },
+            scopes=scope  # Ensure scopes are passed correctly
+        )
+
         client = gspread.authorize(creds)
 
         # Open the Google Sheet and select the first sheet
         sheet = client.open("NepalClimateFeedback").sheet1
-        
+
         # Append a new row with the feedback data
         sheet.append_row([datetime.now().strftime('%Y-%m-%d %H:%M:%S'), name, email, feedback])
-        
+
         return True
     except Exception as e:
         st.error(f"Error saving feedback: {e}")
         return False
+
 # Feedback Tab
 with tabs[6]:
     st.header("📩 Send Feedback to Admin")
