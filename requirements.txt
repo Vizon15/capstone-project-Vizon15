@@ -1,4 +1,5 @@
 beautifulsoup4==4.13.4
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.5.0/en_core_web_sm-3.5.0.tar.gz
 folium==0.19.5
 fpdf==1.7.2
 geopandas==1.0.1
@@ -14,7 +15,7 @@ protobuf==4.25.3
 psutil==7.0.0
 Requests==2.32.3
 scikit_learn==1.6.1
-spacy==3.8.5
+spacy>=3.5.0
 streamlit==1.45.0
 streamlit_folium==0.25.0
 vaderSentiment==3.3.2

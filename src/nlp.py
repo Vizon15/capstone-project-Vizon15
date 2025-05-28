@@ -14,15 +14,19 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 import random
 from datetime import datetime, timedelta
+
+
 import subprocess
 import spacy
-# Ensure the model is downloaded
-subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
-# Load spaCy's English model
-english_nlp = spacy.load("en_core_web_sm")
+try:
+    english_nlp = spacy.load("en_core_web_sm")
+except OSError:
+    # only if you really want on-the-fly download:
+    from spacy.cli import download
+    download("en_core_web_sm")
+    english_nlp = spacy.load("en_core_web_sm")
 
-# Get English stopwords from spaCy
-english_stopwords = english_nlp.Defaults.stop_words
+english_stopwords = set(english_nlp.Defaults.stop_words)
 # Minimal in-memory stopwords list (subset)
 STOPWORDS = set([
     'the','and','is','in','to','of','for','on','with','a','an','that','this','as','are','be','by','it','from'
