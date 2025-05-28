@@ -146,13 +146,13 @@ with tabs[1]:
         geojson = merged.set_index(location_field).__geo_interface__
         fig = px.choropleth_map(
             merged, geojson=geojson, locations=location_field,
-            color=var, mapbox_style='carto-positron',
+            color=var, 
             center={'lat':28,'lon':84}, zoom=6 if level=='Province' else 8,
             opacity=0.6, hover_name=location_field,
             title=f"{var} by {level}"
         )
         fig.update_geos(fitbounds="locations", visible=False)
-        fig.update_layout(margin={'r':0,'t':30,'l':0,'b':0})
+        fig.update_layout(margin={'r':0,'t':30,'l':0,'b':0}, mapbox_style="carto-positron")
         st.plotly_chart(fig, use_container_width=True)
     except Exception as e:
         st.error(f"Map error: {e}")
