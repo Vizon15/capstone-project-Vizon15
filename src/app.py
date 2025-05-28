@@ -522,6 +522,7 @@ def save_feedback(name, email, feedback):
             "project_id": gcp_secrets["project_id"],
             "private_key": gcp_secrets["private_key"],
             "client_email": gcp_secrets["client_email"],
+            "token_uri": gcp_secrets["token_uri"],
             })
         client = gspread.authorize(creds)
 
