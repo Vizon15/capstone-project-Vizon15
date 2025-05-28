@@ -39,9 +39,10 @@ def load_data():
         ]
     )
     raw['District'] = raw['District'].str.title()
+
+    df = eng.merge(raw, on=['Date','District'], how='left', suffixes=('','_raw'))
     # Ensure the Date column is a true datetime dtype:
     df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
-    df = eng.merge(raw, on=['Date','District'], how='left', suffixes=('','_raw'))
     df['Province'] = df['Province'].fillna('Unknown')
     df['District'] = df['District'].fillna('Unknown')
     for col in ['Temperature (°C)','Rainfall (mm)','Precipitation (mm)',
