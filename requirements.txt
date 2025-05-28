@@ -17,6 +17,7 @@ psutil==7.0.0
 Requests==2.32.3
 scikit_learn==1.6.1
 spacy>=3.5.0
+statsmodels>=0.14.0
 streamlit==1.45.0
 streamlit_folium==0.25.0
 vaderSentiment==3.3.2

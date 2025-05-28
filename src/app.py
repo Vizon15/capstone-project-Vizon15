@@ -39,6 +39,8 @@ def load_data():
         ]
     )
     raw['District'] = raw['District'].str.title()
+    # Ensure the Date column is a true datetime dtype:
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
     df = eng.merge(raw, on=['Date','District'], how='left', suffixes=('','_raw'))
     df['Province'] = df['Province'].fillna('Unknown')
     df['District'] = df['District'].fillna('Unknown')
@@ -141,13 +143,14 @@ with tabs[1]:
             merged = geo_gdf.merge(agg, on='District')
             location_field = 'District'
         geojson = merged.set_index(location_field).__geo_interface__
-        fig = px.choropleth_mapbox(
+        fig = px.choropleth_map(
             merged, geojson=geojson, locations=location_field,
             color=var, mapbox_style='carto-positron',
             center={'lat':28,'lon':84}, zoom=6 if level=='Province' else 8,
             opacity=0.6, hover_name=location_field,
             title=f"{var} by {level}"
         )
+        fig.update_geos(fitbounds="locations", visible=False)
         fig.update_layout(margin={'r':0,'t':30,'l':0,'b':0})
         st.plotly_chart(fig, use_container_width=True)
     except Exception as e:
